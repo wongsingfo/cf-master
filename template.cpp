@@ -6,13 +6,20 @@
 // 4. Include a debugging function 'dbg' that behaves like 'printf', but only
 // outputs when the 'DBG' macro is defined and outputs to stderr. The 'DBG'
 // macro should not be defined within the code.
+//   #ifdef DBG
+//   #define dbg(...) fprintf(stderr, __VA_ARGS__)
+//   #else
+//   #define dbg(...)
+//   #endif
 // 5. Store input data in global variables. For example, for an array `a`, you
 // can use either `vector<int> a` or `int a[MAXN]`, where MAXN can be defined as
 // a constant (e.g. const int MAXN = 100005;). The 'solve' function accesses the
 // input as global variables.
 // 6. Ensure the global input data are properly reset or cleaned before
 // processing a new test case. Don't use 'memset' to clear the input data,
-// instead use 'std::fill' to clear the input data.
+// instead use 'std::fill' to clear the input data. Don't reset the whole data
+// (e.g. fill(array, array+MAXN, 0)). Instead, only reset the area we will use
+// (e.g. fill(array, array+n, 0) where n depends on the input data).
 // 7. Implement a main function that calls the 'solve' function to process and
 // print the returned values. You do not need to implement the 'solve' function
 // itself, just handle the I/O.
