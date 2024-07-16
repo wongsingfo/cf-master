@@ -1,3 +1,16 @@
+## Codeforces Round 958 (Div. 2)
+
+Date: Jul/15/2014
+Rank: 2194
+Solved: 3
+Rating change: -81
+New rating: 1903
+
+Unsolved problems:
+- [Problem D](solved/1988D.cpp): The maximum number of round is limited to log2n.
+- [Problem E](solved/1988E1.cpp): Use Cartesian tree to calculate the answer. What happens if one of the tree node gets removed?
+- [Problem E](solved/1988E2.cpp): Count the contribution of each number to the final answer. A trick to find the second maximum next value.
+- [Problem F](solved/1988F.cpp):
 
 ## 1983:  Codeforces Round #956 (Div. 2) and ByteRace 2024
 

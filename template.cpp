@@ -1,7 +1,7 @@
 // Generate a C++ template to manage input and output according to the given
 // problem description:
 // 1. Include <bits/stdc++.h> to use the C++ standard library.
-// 2. Use 'typedef long long ll' for simplifying the use of 'long long' types.
+// 2. Use 'using ll = long long;' for simplifying the use of 'long long' types.
 // 3. Use 'using namespace std;' to simplify the code syntax.
 // 4. Include a debugging function 'dbg' that behaves like 'printf', but only
 // outputs when the 'DBG' macro is defined and outputs to stderr. The 'DBG'
@@ -28,8 +28,13 @@
 // the 'solve' function returns the result for one test case. If there is only
 // one test case, ignore this rule.
 // 9. Use 'scanf' and 'printf' for efficient input and output processing.
-// 10. Follow the indexing conventions specified by the problem—use one-index or
-// zero-index as required.
+// 10. Follow the indexing conventions used by the problem statement. If the
+// problem use one-indexing (e.g. a_1, a_2, ... a_n), use one-indexing in the
+// code.
+//   for (int i = 1; i <= n; i++) foo(a[i]);
+//   fill(vec + 1, vec + n + 1, 0));
+//   vec.resize(n + 1);
+// If the problem uses zero-indexing, use zero-indexing in the code.
 // 11. If the answer needs to take modulo, define the constant 'MOD'. Otherwise,
 // ignore this rule.
 //
