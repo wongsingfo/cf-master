@@ -33,6 +33,7 @@
 // code.
 //   for (int i = 1; i <= n; i++) foo(a[i]);
 //   fill(vec + 1, vec + n + 1, 0));
+//   vector<int> vec(n + 1);
 //   vec.resize(n + 1);
 // If the problem uses zero-indexing, use zero-indexing in the code.
 // 11. If the answer needs to take modulo, define the constant 'MOD'. Otherwise,

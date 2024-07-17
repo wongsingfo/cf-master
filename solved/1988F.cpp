@@ -1,8 +1,24 @@
-/* Snippet Header */
+// #pragma GCC optimize("O2,unroll-loops")
+// #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
 
 #include <bits/stdc++.h>
 using ll = long long;
-#define MOD 998244353
+using namespace std;
+
+const int MAXN = 1024;
+const int MOD = 998244353;
+int n;
+int a[MAXN], b[MAXN], c[MAXN];
+
+// Debugging macro
+#ifdef DBG
+#define dbg(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define dbg(...)
+#endif
 
 /* Snippet BEGIN */
 
@@ -169,3 +185,127 @@ struct Comb
 } comb;
 
 /* Snippet END */
+
+// Reset function for global variables
+void reset_arrays(int size)
+{
+    fill(a, a + size, 0);
+    fill(b, b + size, 0);
+    fill(c, c + size, 0);
+}
+
+// Solve function would be implemented here
+void solve()
+{
+    /// dp[ n ][ prefix max ][ ascent ]
+    static Z f[2][MAXN][MAXN];
+
+    using pointer = Z(*)[MAXN];
+    pointer curr = f[0];
+    pointer next = f[1];
+
+    curr[1][0] = 1;
+    static Z F[MAXN][MAXN], G[MAXN][MAXN];
+
+    for (int i = 1; i <= n; i++) {
+        // dbg("i: %d, cur: %p\n", i, curr);
+        // for (int j = 1; j <= n; j++) {
+        //     // ascent
+        //     for (int k = 0; k <= n; k++) {
+        //         F[i][k] += curr[j][k] * a[j];
+        //         G[i][k] += curr[j][i - 1 - k] * b[j];
+        //     }
+        // }
+        //
+        // if (i == n)
+        //     break;
+
+        // prefix max
+        for (int j = 1; j <= i; j++) {
+            // ascent
+            // Z* next_j = nextj];
+            // Z* next_j1 = next[j+1];
+
+            for (int k = j - 1; k < i; k++) {
+                // G[i][k] += curr[j][i - 1 - k] * b[j];
+                Z current = curr[j][k];
+                if (current == 0)
+                    continue;
+
+                G[i][i - 1 - k] += current * b[j];
+                F[i][k] += current * a[j];
+
+                // 1xxxxxxxx
+                next[j + 1][k + 1] += current;
+                // xxA1Bxxxx  A<B
+                next[j][k] += current * k;
+                // xxA1Bxxxx  A>B
+                next[j][k + 1] += current * (i - k - 1);
+
+                curr[j][k] = 0;
+            }
+
+            // fill(&curr[j][0], &curr[j][i], 0);
+        }
+
+        swap(curr, next);
+        // memset(next, 0, sizeof(f[0]));
+    }
+
+    // if (n == 700)
+    //     exit(0);
+    //
+    dbg("F, G calculated\n");
+
+    static Z H[MAXN][MAXN];
+    for (int j = 1; j <= n; j++) {
+        for (int p = 0; p <= n; p++) {
+            Z &value = H[j][p];
+            for (int q = 0; q < j && p + q < n; q++) {
+                value += G[j][q] * c[p + q];
+            }
+        }
+    }
+
+    Comb comb(n);
+    for (int ni = 1; ni <= n; ni++) {
+        dbg("ni: %d\n", ni);
+        Z ans = 0;
+        for (int i = 1; i <= ni; i++) {
+            int j = ni - i + 1;
+
+            for (int p = 0; p < i; p++) {
+                // for (int q = 0; q < j; q++) {
+                //     Z val = comb.binom(ni - 1, i - 1) * F[i][p] * G[j][q] *
+                //             c[p + q];
+                //     dbg("%d %d %d %d %lld\n", i, j, p, q, val.val());
+                //     ans += val;
+                // }
+
+                Z val = comb.binom(ni - 1, i - 1) * F[i][p] * H[j][p];
+                ans += val;
+            }
+        }
+
+        printf("%lld ", ans.val());
+    }
+    printf("\n");
+}
+
+int main()
+{
+    scanf("%d", &n);
+
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &a[i]);
+    }
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &b[i]);
+    }
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &c[i]);
+    }
+
+    solve();
+    return 0;
+}

@@ -8,9 +8,9 @@ New rating: 1903
 
 Unsolved problems:
 - [Problem D](solved/1988D.cpp): The maximum number of round is limited to log2n.
-- [Problem E](solved/1988E1.cpp): Use Cartesian tree to calculate the answer. What happens if one of the tree node gets removed?
-- [Problem E](solved/1988E2.cpp): Count the contribution of each number to the final answer. A trick to find the second maximum next value.
-- [Problem F](solved/1988F.cpp):
+- [Problem E]: Use Cartesian tree to calculate the answer. What happens if one of the tree node gets removed?
+- [Problem E](solved/1988E.cpp): Count the contribution of each number to the final answer. A trick to find the second maximum next value.
+- [Problem F](solved/1988F.cpp): For each n, calculate sum i sum p sum q F(i, p) times G(n-i, q). Reduce the time from O(n4) to O(n3).
 
 ## 1983:  Codeforces Round #956 (Div. 2) and ByteRace 2024
 
