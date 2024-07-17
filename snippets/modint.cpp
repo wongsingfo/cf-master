@@ -168,4 +168,18 @@ struct Comb
     }
 } comb;
 
+void modint_example()
+{
+    int n = 6;
+    Comb comb(n);
+
+    assert(comb.binom(3, 2) == 3);
+
+    Z x = 5;
+    assert(1 == x / 5);
+    assert(1 == x * comb.inv(5));
+
+    printf("%lld\n", (x / 2).val());
+}
+
 /* Snippet END */
