@@ -21,8 +21,7 @@ testpy:
 	diff out.txt ans.txt >/dev/null
 
 gdb: a.out
-	# gdb -ex 'set args -path /home/user/work < input.txt' myprogram
-	gdb -ex 'set args <in.txt' a.out
+	gdb -nx -ex 'set args <in.txt' a.out
 
 a.out: a.cpp
 	g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \

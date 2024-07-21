@@ -1,3 +1,13 @@
+## Codeforces Round 960 (Div. 2)
+
+Date: Jul/20/2024
+Rank: 359
+Solved: 4
+Rating change: +49
+New rating: 1953
+
+- [Problem E](solved/1990E.cpp): Each query removes sqrt N nodes. Then use sqrt N queries to move the Mole to the root.
+
 ## Codeforces Round 958 (Div. 2)
 
 Date: Jul/15/2014
