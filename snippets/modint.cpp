@@ -1,12 +1,12 @@
 /* Snippet Header */
 
 #include <bits/stdc++.h>
-using ll = long long;
+using i64 = long long;
 #define MOD 998244353
 
 /* Snippet BEGIN */
 
-template <class T> constexpr T power(T a, ll b)
+template <class T> constexpr T power(T a, i64 b)
 {
     T res{1};
     for (; b; b /= 2, a *= a) {
@@ -17,9 +17,9 @@ template <class T> constexpr T power(T a, ll b)
     return res;
 }
 
-constexpr ll mul(ll a, ll b, ll p)
+constexpr i64 mul(i64 a, i64 b, i64 p)
 {
-    ll res = a * b - ll(1.L * a * b / p) * p;
+    i64 res = a * b - i64(1.L * a * b / p) * p;
     res %= p;
     if (res < 0) {
         res += p;
@@ -27,13 +27,13 @@ constexpr ll mul(ll a, ll b, ll p)
     return res;
 }
 
-template <ll P> struct MInt
+template <i64 P> struct MInt
 {
-    ll x;
+    i64 x;
     constexpr MInt() : x{0} {}
-    constexpr MInt(ll x) : x{norm(x % P)} {}
+    constexpr MInt(i64 x) : x{norm(x % P)} {}
 
-    constexpr ll norm(ll x) const
+    constexpr i64 norm(i64 x) const
     {
         if (x < 0) {
             x += P;
@@ -43,7 +43,7 @@ template <ll P> struct MInt
         }
         return x;
     }
-    constexpr ll val() const { return x; }
+    constexpr i64 val() const { return x; }
     constexpr MInt operator-() const
     {
         MInt res;
@@ -53,7 +53,7 @@ template <ll P> struct MInt
     constexpr MInt inv() const { return power(*this, P - 2); }
     constexpr MInt &operator*=(MInt rhs) &
     {
-        if (P < (1ULL << 31)) {
+        if constexpr (P < (1ULL << 31)) {
             x = x * rhs.x % int(P);
         } else {
             x = mul(x, rhs.x, P);
@@ -124,7 +124,7 @@ struct Comb
 
     void init(int m)
     {
-        m = std::min<ll>(m, P - 1);
+        m = std::min<i64>(m, P - 1);
         if (m <= n)
             return;
         _fac.resize(m + 1);
