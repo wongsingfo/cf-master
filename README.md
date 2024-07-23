@@ -7,6 +7,7 @@ Rating change: +49
 New rating: 1953
 
 - [Problem E](solved/1990E.cpp): Each query removes sqrt N nodes. Then use sqrt N queries to move the Mole to the root.
+- [Problem F](solved/1990F.cpp): Key observation: number of possible ends is log N. Use segment tree.
 
 ## Codeforces Round 958 (Div. 2)
 

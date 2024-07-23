@@ -1,7 +1,7 @@
 // Generate a C++ template to manage input and output according to the given
 // problem description:
 // 1. Include <bits/stdc++.h> to use the C++ standard library.
-// 2. Use 'using ll = long long;' for simplifying the use of 'long long' types.
+// 2. Use 'using i64 = long long;' for simplifying the use of 'long long' types.
 // 3. Use 'using namespace std;' to simplify the code syntax.
 // 4. Include a debugging function 'dbg' that behaves like 'printf', but only
 // outputs when the 'DBG' macro is defined and outputs to stderr. The 'DBG'
