@@ -7,7 +7,7 @@
 // outputs when the 'DBG' macro is defined and outputs to stderr. The 'DBG'
 // macro should not be defined within the code.
 //   #ifdef DBG
-//   #define dbg(...) fprintf(stderr, __VA_ARGS__)
+//   #include "debug.h"
 //   #else
 //   #define dbg(...)
 //   #endif
