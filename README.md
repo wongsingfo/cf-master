@@ -1,3 +1,13 @@
+## Codeforces Round 961 (Div. 2)
+
+Date: Jul/23/2024
+Rank: 69
+Solved: 5
+Rating change: +114
+New rating: 2067
+
+- [Problem E](solved/1995E.cpp): Enumerate the min value and the max value. Use segment tree to fast check if the state is valid.
+
 ## Codeforces Round 960 (Div. 2)
 
 Date: Jul/20/2024

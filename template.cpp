@@ -12,14 +12,10 @@
 //   #define dbg(...)
 //   #endif
 // 5. Store input data in global variables. For example, for an array `a`, you
-// can use either `vector<int> a` or `int a[MAXN]`, where MAXN can be defined as
-// a constant (e.g. const int MAXN = 100005;). The 'solve' function accesses the
-// input as global variables.
+// can use `vector<int> a`. The 'solve' function accesses the input as global
+// variables.
 // 6. Ensure the global input data are properly reset or cleaned before
-// processing a new test case. Don't use 'memset' to clear the input data,
-// instead use 'std::fill' to clear the input data. Don't reset the whole data
-// (e.g. fill(array, array+MAXN, 0)). Instead, only reset the area we will use
-// (e.g. fill(array, array+n, 0) where n depends on the input data).
+// processing a new test case.
 // 7. Implement a main function that calls the 'solve' function to process and
 // print the returned values. You do not need to implement the 'solve' function
 // itself, just handle the I/O.
@@ -27,16 +23,18 @@
 // be called multiple times, each time for a different test case; each call to
 // the 'solve' function returns the result for one test case. If there is only
 // one test case, ignore this rule.
-// 9. Use 'scanf' and 'printf' for efficient input and output processing.
+// 9. Use cin and cout for I/O. Add the following to make I/O faster.
+//   ios::sync_with_stdio(false);
+//   cin.tie(nullptr);
 // 10. Follow the indexing conventions used by the problem statement. If the
 // problem use one-indexing (e.g. a_1, a_2, ... a_n), use one-indexing in the
-// code.
-//   for (int i = 1; i <= n; i++) foo(a[i]);
+// code. For example,
 //   fill(vec + 1, vec + n + 1, 0));
 //   vector<int> vec(n + 1);
 //   vec.resize(n + 1);
+//   for (int i = 1; i <= n; i++) foo(vec[i]);
 // If the problem uses zero-indexing, use zero-indexing in the code.
-// 11. If the answer needs to take modulo, define the constant 'MOD'. Otherwise,
+// 10. If the answer needs to take modulo, define the constant 'MOD'. Otherwise,
 // ignore this rule.
 //
 // Generate only the code in a quote block. Don't add any explanations.

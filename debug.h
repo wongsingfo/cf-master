@@ -53,10 +53,13 @@
 #include <valarray>
 #include <vector>
 
-#if !(defined(__APPLE__) && defined(__clang__))
-    #define ICECREAM_CUCHAR_HEADER
-    #include <cuchar>
-#endif
+// Chengke: Not working in clangxx (why?)
+// no member named 'c32rtomb' in namespace 'std'
+//
+// #if !(defined(__APPLE__) && defined(__clang__))
+//     #define ICECREAM_CUCHAR_HEADER
+//     #include <cuchar>
+// #endif
 
 #if defined(__cpp_lib_optional) || (__cplusplus >= 201703L)
     #define ICECREAM_OPTIONAL_HEADER

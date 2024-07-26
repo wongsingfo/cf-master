@@ -23,8 +23,9 @@ testpy:
 gdb: a.out
 	gdb -nx -ex 'set args <in.txt' a.out
 
-a.out: a.cpp
-	g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \
+# micromamba install clangxx compiler-rt
+a.out: a.cpp debug.h
+	clang++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \
 		-fsanitize=address \
 		-Wno-unused-but-set-variable -Wno-unused-variable \
 		-Wno-unused-local-typedefs \
