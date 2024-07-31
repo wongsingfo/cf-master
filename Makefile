@@ -25,9 +25,11 @@ gdb: a.out
 
 # micromamba install clangxx compiler-rt
 a.out: a.cpp debug.h
-	clang++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \
+	g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \
 		-fsanitize=address \
 		-Wno-unused-but-set-variable -Wno-unused-variable \
 		-Wno-unused-local-typedefs \
 		-o a.out
 
+clean:
+	rm a.out
