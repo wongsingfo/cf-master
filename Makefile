@@ -1,13 +1,14 @@
 test: a.out
-	@echo "Input:"
+	@echo "Input:\n======"
 	@cat in.txt
-	@echo "\nStderr:"
-	@./a.out <in.txt >out.txt
-	@echo "\nExpected:"
+	@echo "\nStderr:\n======="
+	@{ ./a.out <in.txt >out.txt; } 2>&1 | \
+		awk '/AddressSanitizer/{p=1}!p||/a.cpp/||!/^\s/'
+	@echo "\nExpected:\n========="
 	@cat ans.txt
-	@echo "\nOutput:"
+	@echo "\nOutput:\n======="
 	@cat out.txt
-	@echo
+	@echo "\n-------------------------------"
 	diff out.txt ans.txt >/dev/null
 
 testpy:
