@@ -1,8 +1,16 @@
-/* Snippet Header */
-
+// Created at: Wed Jul 31 15:33:30 CST 2024
 #include <bits/stdc++.h>
+using namespace std;
 using i64 = long long;
-#define MOD 998244353
+
+#ifdef DBG
+#include "debug.h"
+#else
+#define dbg(...)
+#define dbg_export(...)
+#endif
+
+const int MOD = 998244353;
 
 /* Snippet BEGIN */
 
@@ -107,10 +115,6 @@ template <i64 P> struct MInt
     {
         return lhs.val() < rhs.val();
     }
-    friend std::ostream &operator<<(std::ostream &os, MInt x)
-    {
-        return os << x.val();
-    }
 };
 
 constexpr int P = MOD;
@@ -186,4 +190,84 @@ void modint_example()
     printf("%lld\n", (x / 2).val());
 }
 
+dbg_export(Z, val());
+
 /* Snippet END */
+
+int n, x, m;
+
+Z solve()
+{
+    vector<int> fib = {0, 1, 1};
+    for (int i = 3; i <= x; i++) {
+        fib.push_back(fib[i - 1] + fib[i - 2]);
+    }
+    int upper = fib[x] * n;
+    dbg(fib[x], upper);
+    while (fib.back() <= upper) {
+        int last = fib.back();
+        int last2 = fib[fib.size() - 2];
+        int v = last + last2;
+        fib.push_back(v);
+    }
+    fib.pop_back();
+    dbg(fib);
+
+    vector<vector<Z>> dp((size_t)n + 1, vector<Z>(upper + 1, 0));
+
+    // dp[num][sum] -> dp[num+1][sum+value];
+    //              -> dp[num+2][sum+value*2];
+    //              -> ...
+    dp[0][0] = 1;
+
+    for (int i = 1; i <= x; i++) {
+        int value = fib[i];
+        for (int num = 0; num < n; num++)
+            for (int sum = 0; sum <= upper; sum++) {
+                auto &f = dp[num][sum];
+                // dbg(num, sum, f);
+                if (f.val() != 0) {
+                    dp[num + 1][sum + value] += f;
+                }
+            }
+        dbg(i, dp);
+    }
+
+    Z ret = 0;
+    for (int sum = 1; sum <= upper; sum++) {
+        int count = 0;
+
+        int num = sum;
+        for (int i = fib.size() - 1; i > 0; i--) {
+            if (fib[i] <= num) {
+                num -= fib[i];
+                count += 1;
+            }
+        }
+
+        assert(num == 0);
+        dbg(sum, count);
+
+        if (count == m) {
+            ret += dp[n][sum];
+        }
+    }
+
+    return ret;
+}
+
+int main()
+{
+#ifndef DBG
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+#endif
+
+    cin >> n >> x >> m;
+
+    Z ans = solve();
+
+    cout << ans.val() << endl;
+
+    return 0;
+}
