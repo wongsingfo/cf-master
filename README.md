@@ -1,4 +1,17 @@
-## Codeforces Round 961 (Div. 2)
+# Content History
+
+## 1997: Educational Codeforces Round 168 (Rated for Div. 2)
+
+Date: Jul/30/2024
+Rank: 2351
+Solved: 4
+Rating change: -90
+New rating: 1978
+
+- [Problem E](solved/1997E.cpp): For each monster, use binary search to find out what is the minimum k that the user will have to fight this monster.
+- [Problem F](solved/1997F.cpp): Knapsack counting.
+
+## 1995: Codeforces Round 961 (Div. 2)
 
 Date: Jul/23/2024
 Rank: 69
@@ -8,7 +21,7 @@ New rating: 2067
 
 - [Problem E](solved/1995E.cpp): Enumerate the min value and the max value. Use segment tree to fast check if the state is valid.
 
-## Codeforces Round 960 (Div. 2)
+## 1990: Codeforces Round 960 (Div. 2)
 
 Date: Jul/20/2024
 Rank: 359
@@ -19,7 +32,7 @@ New rating: 1953
 - [Problem E](solved/1990E.cpp): Each query removes sqrt N nodes. Then use sqrt N queries to move the Mole to the root.
 - [Problem F](solved/1990F.cpp): Key observation: number of possible ends is log N. Use segment tree.
 
-## Codeforces Round 958 (Div. 2)
+## 1988: Codeforces Round 958 (Div. 2)
 
 Date: Jul/15/2014
 Rank: 2194
@@ -33,7 +46,7 @@ Unsolved problems:
 - [Problem E](solved/1988E.cpp): Count the contribution of each number to the final answer. A trick to find the second maximum next value.
 - [Problem F](solved/1988F.cpp): For each n, calculate sum i sum p sum q F(i, p) times G(n-i, q). Reduce the time from O(n4) to O(n3).
 
-## 1983:  Codeforces Round #956 (Div. 2) and ByteRace 2024
+## 1983: Codeforces Round #956 (Div. 2) and ByteRace 2024
 
 Date: Jul/07/2024
 Rank: 131
