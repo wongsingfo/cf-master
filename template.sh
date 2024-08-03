@@ -20,10 +20,10 @@ fi
 
 echo "Generating template..."
 echo "// Created at:" $(date) > "$OUTPUT_CODE"
-cat "template.${LANG}" problem.txt |
+cat "template.md" problem.txt |
 	${HOME}/dotfiles/chatgpt.sh --model "gpt-4o" --stdin |
-	tee /dev/stderr |
-	awk '/```/{flag=!flag;next} flag{print}' >> "$OUTPUT_CODE"
+	stdbuf -oL tee /dev/stderr |
+	stdbuf -oL awk '/```/{flag=!flag;next} flag{print}' >> "$OUTPUT_CODE"
 
 echo "Parsing input..."
 cat problem.txt |

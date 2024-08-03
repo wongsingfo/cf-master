@@ -1,3 +1,5 @@
+.PHONY: test clean template testpy
+
 test: a.out
 	@echo "Input:\n======"
 	@cat in.txt
@@ -8,25 +10,20 @@ test: a.out
 	@cat ans.txt
 	@echo "\nOutput:\n======="
 	@cat out.txt
-	@echo "\n-------------------------------"
-	diff out.txt ans.txt >/dev/null
+	@echo "\n======="
+	@diff out.txt ans.txt >/dev/null
+	@echo "ok!"
 
-testpy:
-	@echo "Input:"
-	@cat in.txt
-	@echo "\nExpected:"
-	@cat ans.txt
-	@echo "\nOutput:"
-	@python a.py <in.txt | tee out.txt
-	@echo
-	diff out.txt ans.txt >/dev/null
+template:
+	bash ./template.sh
+	make test
 
 gdb: a.out
 	gdb -nx -ex 'set args <in.txt' a.out
 
 # micromamba install clangxx compiler-rt
 a.out: a.cpp debug.h
-	g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 \
+	g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++20 \
 		-fsanitize=address \
 		-Wno-unused-but-set-variable -Wno-unused-variable \
 		-Wno-unused-local-typedefs \

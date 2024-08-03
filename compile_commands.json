@@ -1,7 +1,7 @@
 [
     {
         "directory": "/home/chengke/codeforces",
-        "command": "g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++17 -fsanitize=address -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unused-local-typedefs -o a.out",
+        "command": "g++ a.cpp -DDBG -g -Wall -Werror -Wextra -std=c++20 -fsanitize=address -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unused-local-typedefs -o a.out",
         "file": "a.cpp"
     }
 ]
