@@ -1,5 +1,15 @@
 # Content History
 
+## 1993: Codeforces Round 963 (Div. 2)
+
+Date: Aug/04/2024
+Rank: 722
+Solved: 3
+Rating change: -6
+New rating: 1972
+
+- [Problem D](solved/1993D.cpp): Key observation: `i%k` is the number of picked elements.
+
 ## 1997: Educational Codeforces Round 168 (Rated for Div. 2)
 
 Date: Jul/30/2024
