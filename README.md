@@ -9,6 +9,8 @@ Rating change: -6
 New rating: 1972
 
 - [Problem D](solved/1993D.cpp): Key observation: `i%k` is the number of picked elements.
+- [Problem E](solved/1993E.cpp): For a fix row, the number of possible values is n+1. Use dp to select a path.
+- [Problem F](solved/1993F.cpp): Walking in a map with size of `[w*2, h*2]`. Use math to calc how many times it visits (0,0).
 
 ## 1997: Educational Codeforces Round 168 (Rated for Div. 2)
 

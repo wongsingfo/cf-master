@@ -1,0 +1,167 @@
+/* Snippet Header */
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Snippet BEGIN */
+class NumberTheory
+{
+  public:
+    NumberTheory(int n) : n(n), min_divisor(n + 1, 0), phi(n + 1) { init(); }
+
+    vector<int> factorize(int x)
+    {
+        vector<int> ret;
+        while (x != 1) {
+            int xp = min_divisor[x];
+            ret.push_back(min_divisor[x]);
+            while (x % xp == 0)
+                x /= xp;
+        }
+        return ret;
+    }
+
+    vector<int> &all_primes() { return primes; }
+
+    bool is_prime(int n) { return min_divisor[n] == n; }
+
+    // Returns x^(-1) (mod m)
+    int inv(int x, int m)
+    {
+        assert(2 <= m && m <= n);
+        // inv(x, m) = x^(phi(m) - 1)
+        int result = pow(x, phi[m] - 1, m);
+#ifdef DBG
+        assert((i64)result * x % m == 1);
+#endif
+        return result;
+    }
+
+  private:
+    int n;
+    vector<int> min_divisor;
+    vector<int> primes;
+    vector<int> phi; // Euler's totient function
+
+    void init()
+    {
+        phi[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            if (min_divisor[i] == 0) {
+                min_divisor[i] = i;
+                phi[i] = i - 1;
+                primes.push_back(i);
+            }
+            for (int j : primes) {
+                if (i * j > n)
+                    break;
+                min_divisor[i * j] = j;
+                if (i % j == 0) {
+                    phi[i * j] = phi[i] * j;
+                    break;
+                } else {
+                    phi[i * j] = phi[i] * (j - 1);
+                }
+            }
+        }
+    }
+
+    static int pow(int a, int n, int mod)
+    {
+        int res = 1;
+        while (n) {
+            if (n & 1) {
+                res = (i64)res * a % mod;
+            }
+            a = (i64)a * a % mod;
+            n >>= 1;
+        }
+        return res;
+    }
+};
+
+// Return [ x, y, d ]
+// a * x + b * y = d = gcd(a, b)
+//
+// All solution x' and y':
+//   x' = x + k * (b / d)
+//   y' = y - k * (a / d)
+tuple<i64, i64, i64> extended_gcd(i64 a, i64 b)
+{
+    if (b == 0)
+        return {1, 0, a};
+    auto [x, y, d] = extended_gcd(b, a % b);
+    return {y, x - a / b * y, d};
+}
+
+// [Tutorial] Chinese Remainder Theorem
+// https://codeforces.com/blog/entry/61290
+//    x == a1 (mod n1)
+//    x == a2 (mod n2)
+// Return [ ret, lcm(n1, n2) ]
+// Solution:
+//    x == ret (mod lcm(n1, n2))
+//    0 <= ret < lcm(n1, n2)
+optional<tuple<i64, i64>> chinese_remainder(i64 a1, i64 n1, i64 a2, i64 n2)
+{
+    // x = k1 * n1 + a1 = k2 * n2 + a2
+    // n1 * (-k1) + n2 * k2 = a1 - a2
+    auto [k1, k2, d] = extended_gcd(n1, n2);
+    k1 = -k1;
+
+#ifdef DBG
+    assert(n1 * (-k1) + n2 * k2 == d);
+#endif
+    if ((a1 - a2) % d != 0) {
+        return nullopt;
+    }
+    i64 scaled = (a1 - a2) / d;
+    i64 n2_ = n2 / d;
+    i64 lcm = n1 * n2_;
+
+    // x = (a1 + k1 * n1 % lcm) % lcm
+    // Note that k1 * n1 overflows (because k1~1e18, n1~1e9)
+    //
+    // Note that X * n1 % lcm
+    //         = X * n1 % (n1 * n2 / d)  % lcm
+    //         = X * (n2 / d) * n1       % lcm
+    i64 x = (a1 + k1 % n2_ * scaled % n2_ * n1 % lcm) % lcm;
+    if (x < lcm)
+        x += lcm;
+
+    return {{x, lcm}};
+}
+
+i64 floor_div(i64 a, i64 b)
+{
+    // auto res = lldiv(a, b);
+    i64 d = a / b;
+    i64 r = a % b;
+    return r ? (d - ((a < 0) ^ (b < 0))) : d;
+}
+
+i64 ceil_div(i64 a, i64 b)
+{
+    i64 d = a / b;
+    i64 r = a % b;
+    bool quotientPositive = (b >= 0) == (a >= 0);
+    return d + (r != 0 && quotientPositive);
+}
+
+// Given that x == a (mod m)
+// Returns how many x fall in [l, r]
+i64 count_fallin(i64 a, i64 m, i64 l, i64 r)
+{
+    assert(l <= r);
+    assert(m > 0);
+
+    i64 k_min = ceil_div(l - a, m);
+    i64 k_max = floor_div(r - a, m);
+
+    if (k_max < k_min) {
+        return 0;
+    }
+    return k_max - k_min + 1;
+}
+
+/* Snippet END */
+
