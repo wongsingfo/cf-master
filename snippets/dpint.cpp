@@ -12,7 +12,11 @@ template <typename T, T Invalid = std::numeric_limits<T>::min()> struct DpInt
     constexpr DpInt() : x{Invalid} {}
     constexpr DpInt(T x) : x{x} {}
 
-    constexpr i64 val() const { return x; }
+    constexpr i64 val() const
+    {
+        assert(!invalid());
+        return x;
+    }
 
     constexpr bool invalid() const { return x == Invalid; }
 

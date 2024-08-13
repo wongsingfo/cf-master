@@ -11,7 +11,7 @@ test: a.out
 	@echo "\nOutput:\n======="
 	@cat out.txt
 	@echo "\n======="
-	@diff out.txt ans.txt >/dev/null
+	@diff --ignore-trailing-space out.txt ans.txt >/dev/null
 	@echo "ok!"
 
 template:
@@ -19,7 +19,9 @@ template:
 	make test
 
 gdb: a.out
-	gdb -nx -ex 'set args <in.txt' a.out
+	gdb -nx -ex 'set args <in.txt' \
+		-ex 'set environment ASAN_OPTIONS=detect_leaks=0' \
+		a.out
 
 # micromamba install clangxx compiler-rt
 a.out: a.cpp debug.h

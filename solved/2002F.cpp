@@ -1,3 +1,16 @@
+#include <bits/stdc++.h>
+using namespace std;
+using i64 = long long;
+
+#ifdef DBG
+#include "debug.h"
+#else
+#define dbg(...)
+#define dbg_export(...)
+#endif
+
+i64 n, m, l, f;
+
 /* Snippet Header */
 #include <bits/stdc++.h>
 using namespace std;
@@ -7,7 +20,7 @@ using i64 = long long;
 class NumberTheory
 {
   public:
-    NumberTheory(int n) : n(n), min_divisor(n + 1, 0), phi(n + 1) { init(); }
+    NumberTheory(int n) : n(n), min_divisor(n + 1, 0) { init(); }
 
     vector<int> factorize(int x)
     {
@@ -26,30 +39,16 @@ class NumberTheory
     bool is_prime(int n) { return min_divisor[n] == n; }
 
     // Returns x^(-1) (mod m)
-    int inv(int x, int m)
-    {
-        assert(2 <= m && m <= n);
-        // inv(x, m) = x^(phi(m) - 1)
-        int result = pow(x, phi[m] - 1, m);
-#ifdef DBG
-        assert((i64)result * x % m == 1);
-#endif
-        return result;
-    }
-
   private:
     int n;
     vector<int> min_divisor;
     vector<int> primes;
-    vector<int> phi; // Euler's totient function
 
     void init()
     {
-        phi[1] = 1;
         for (int i = 2; i <= n; i++) {
             if (min_divisor[i] == 0) {
                 min_divisor[i] = i;
-                phi[i] = i - 1;
                 primes.push_back(i);
             }
             for (int j : primes) {
@@ -57,10 +56,8 @@ class NumberTheory
                     break;
                 min_divisor[i * j] = j;
                 if (i % j == 0) {
-                    phi[i * j] = phi[i] * j;
                     break;
                 } else {
-                    phi[i * j] = phi[i] * (j - 1);
                 }
             }
         }
@@ -197,3 +194,89 @@ i64 find_max_x(i64 a, i64 m, i64 r)
 }
 
 /* Snippet END */
+
+#ifdef DBG
+NumberTheory number_theory(100000);
+#else
+NumberTheory number_theory((int)2e7 + 5);
+#endif
+
+i64 solve()
+{
+    assert(n <= m);
+    assert(n >= 2);
+
+    auto &primes = number_theory.all_primes();
+
+    auto iter = upper_bound(primes.begin(), primes.end(), m);
+    iter--;
+    int q = *iter;
+
+    auto iter2 = upper_bound(primes.begin(), primes.end(), min((int)n, q - 1));
+
+    if (iter2 != primes.begin()) {
+        iter2--;
+        // require: gdb(i, p) == 1 for all i in [q, m]
+        while (*iter2 > 2 && q / *iter2 < m / *iter2) {
+            iter2--;
+        }
+    }
+
+    int p = *iter2;
+    if (p == 2)
+        p = 1;
+    else {
+        assert(q % p != 0);
+    }
+    dbg(p, n, q, m);
+
+    i64 ret = 0;
+
+    vector<vector<char>> vis(n - p + 1, vector<char>(m - q + 1));
+    for (int op = 0; p + op <= n; op++)
+        for (int oq = 0; q + oq <= m; oq++) {
+            int pp = p + op;
+            int qq = q + oq;
+
+            if (pp >= qq)
+                continue;
+
+            auto &visit = vis[op][oq];
+            if (op == 0 || oq == 0) {
+                visit = true;
+            } else {
+                int g = gcd(pp, qq);
+                if (g == 1) {
+                    visit = vis[op - 1][oq] || vis[op][oq - 1];
+                }
+            }
+
+            if (visit) {
+                dbg(pp, qq);
+                i64 value = l * pp + f * qq;
+                ret = max(ret, value);
+
+                if (pp <= m && qq <= n) {
+                    i64 value = l * qq + f * pp;
+                    ret = max(ret, value);
+                }
+            }
+        }
+
+    return ret;
+}
+
+int main()
+{
+#ifndef DBG
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+#endif
+    int t;
+    cin >> t;
+    while (t--) {
+        cin >> n >> m >> l >> f;
+        cout << solve() << endl;
+    }
+    return 0;
+}

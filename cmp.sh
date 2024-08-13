@@ -1,4 +1,5 @@
 set -e
+make a.out
 while : ; do
 echo -n .
 python gen.py >in.txt
