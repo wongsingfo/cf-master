@@ -37,7 +37,11 @@ template <typename Info, typename Lazy = NullLazy> class SegmentTree
         build(1, l, r, build);
     }
 
-    void modify(int p, const Info &v) { modify(1, root_l, root_r, p, v); }
+    void modify(int p, const Info &v)
+    {
+        assert(p >= root_l && p <= root_r);
+        modify(1, root_l, root_r, p, p, v);
+    }
 
     void modify(int p, const Lazy &v) { modify(1, root_l, root_r, p, p, v); }
 
@@ -100,12 +104,21 @@ template <typename Info, typename Lazy = NullLazy> class SegmentTree
         nodes[p].lazy.clear();
     }
 
-    void modify(int p, int l, int r, int x, int y, const Lazy &v)
+    template <typename U>
+    void modify(int p, int l, int r, int x, int y, const U &v)
     {
-        if (l >= x && r <= y) {
-            nodes[p].info.apply(v);
-            nodes[p].lazy.apply(v);
-            return;
+        if constexpr (std::is_same_v<U, Lazy>) {
+            if (l >= x && r <= y) {
+                nodes[p].info.apply(v);
+                nodes[p].lazy.apply(v);
+                return;
+            }
+        } else {
+            static_assert(std::is_same_v<U, Info>);
+            if (l == r) {
+                nodes[p].info = v;
+                return;
+            }
         }
         push(p);
         int m = l + (r - l) / 2;
@@ -114,21 +127,6 @@ template <typename Info, typename Lazy = NullLazy> class SegmentTree
         }
         if (m + 1 <= y) {
             modify(2 * p + 1, m + 1, r, x, y, v);
-        }
-        pull(p);
-    }
-
-    void modify(int p, int l, int r, int x, const Info &v)
-    {
-        if (l == r) {
-            nodes[p].info = v;
-            return;
-        }
-        int m = l + (r - l) / 2;
-        if (x <= m) {
-            modify(2 * p, l, m, x, v);
-        } else {
-            modify(2 * p + 1, m + 1, r, x, v);
         }
         pull(p);
     }
@@ -226,6 +224,10 @@ template <typename T, typename Comparator = std::less<T>> struct CmpInfo
 {
     T value;
 
+    CmpInfo() = default;
+
+    CmpInfo(const T &v) : value(v) {}
+
     CmpInfo merge(const CmpInfo &other) const
     {
         // Return the max value like a priority queue
@@ -242,24 +244,25 @@ int segtree_example()
     {
         SegmentTree<MinCountInfo, AddLazy> s;
         int n = 10;
-        s.init(1, n, []([[maybe_unused]] int i) { return MinCountInfo{0, 1}; });
-        cout << s.range_query().count_zeros() << endl;
-        cout << s.range_query(2, 5).count_zeros() << endl;
+        s.init(1, n, [](int) { return MinCountInfo{0, 1}; });
+        assert(s.range_query().count_zeros() == 10);
+        assert(s.range_query(2, 5).count_zeros() == 4);
         s.modify(2, 6, {1});
-        cout << s.range_query().count_zeros() << endl;
+        assert(s.range_query().count_zeros() == 5);
         s.modify(3, 4, {-1});
-        cout << s.range_query().count_zeros() << endl;
+        assert(s.range_query().count_zeros() == 7);
+        s.modify(4, MinCountInfo{1, 1});
+        assert(s.range_query().count_zeros() == 6);
     }
 
     {
         SegmentTree<CmpInfo<int>> s;
         s.init(-5, 5);
-        s.modify(-2, CmpInfo{3});
-        assert(s.find_first_idx(
-                   -4, 0, [](CmpInfo<int> x) { return x.value >= 3; }) == -2);
-        assert(s.find_first_idx(-4, -3, [](CmpInfo<int> x) {
-            return x.value >= 3;
-        }) == s.NOT_FOUND);
+        s.modify(-2, 3);
+        assert(s.find_first_idx(-4, 0, [](auto x) { return x.value >= 3; }) ==
+               -2);
+        assert(s.find_first_idx(-4, -3, [](auto x) { return x.value >= 3; }) ==
+               s.NOT_FOUND);
     }
 
     return 0;

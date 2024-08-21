@@ -6,7 +6,7 @@ using i64 = long long;
 
 /* Snippet BEGIN */
 
-template <class T> constexpr T power(T a, i64 b)
+template <typename T> constexpr T power(T a, i64 b)
 {
     T res{1};
     for (; b; b /= 2, a *= a) {
@@ -27,47 +27,60 @@ constexpr i64 mul(i64 a, i64 b, i64 p)
     return res;
 }
 
-template <i64 P> struct MInt
+template <typename M> class MInt
 {
-    i64 x;
+  public:
     constexpr MInt() : x{0} {}
-    constexpr MInt(i64 x) : x{norm(x % P)} {}
-
-    constexpr i64 norm(i64 x) const
+    constexpr MInt(i64 v)
     {
-        if (x < 0) {
-            x += P;
-        }
-        if (x >= P) {
-            x -= P;
-        }
-        return x;
+        if (v < 0)
+            v = v % MOD + MOD;
+        if (v >= MOD)
+            v %= MOD;
+        x = v;
     }
+
+    typedef M ModType;
+    static inline constexpr i64 P() { return M::P(); }
+
     constexpr i64 val() const { return x; }
     constexpr MInt operator-() const
     {
         MInt res;
-        res.x = norm(P - x);
+        res.x = P() - x;
         return res;
     }
-    constexpr MInt inv() const { return power(*this, P - 2); }
+    constexpr MInt inv() const
+    {
+        MInt ret = power(*this, P() - 2);
+#ifdef DBG
+        assert(ret * *this == 1);
+#endif
+        return ret;
+    }
     constexpr MInt &operator*=(MInt rhs) &
     {
-        if constexpr (P < (1ULL << 31)) {
-            x = x * rhs.x % int(P);
+        if (P() <= INT_MAX) {
+            x = x * rhs.x % int(P());
         } else {
-            x = mul(x, rhs.x, P);
+            x = mul(x, rhs.x, P());
         }
         return *this;
     }
     constexpr MInt &operator+=(MInt rhs) &
     {
-        x = norm(x + rhs.x);
+        x = x + rhs.x;
+        if (x >= P()) {
+            x -= P();
+        }
         return *this;
     }
     constexpr MInt &operator-=(MInt rhs) &
     {
-        x = norm(x - rhs.x);
+        x = x - rhs.x;
+        if (x < 0) {
+            x += P();
+        }
         return *this;
     }
     constexpr MInt &operator/=(MInt rhs) & { return *this *= rhs.inv(); }
@@ -111,24 +124,62 @@ template <i64 P> struct MInt
     {
         return os << x.val();
     }
+  private:
+    i64 x;
 };
 
-constexpr int P = MOD;
-using Z = MInt<P>;
+// TODO
+struct barrett_reduction
+{
+    unsigned mod;
+    uint64_t div;
 
-struct Comb
+    barrett_reduction(unsigned m) : mod(m), div(-1LLU / m) {}
+
+    unsigned operator()(uint64_t a) const
+    {
+#ifdef __SIZEOF_INT128__
+        uint64_t q = uint64_t(__uint128_t(div) * a >> 64);
+        uint64_t r = a - q * mod;
+        return unsigned(r < mod ? r : r - mod);
+#endif
+        return unsigned(a % mod);
+    }
+};
+
+class StaticMod
+{
+  public:
+    constexpr static i64 P() { return MOD; }
+};
+
+class DynamicMod
+{
+  public:
+    static i64 P() { return p; }
+    static void set(i64 x) { p = x; }
+
+  private:
+    // https://stackoverflow.com/questions/9110487/undefined-reference-to-a-static-member
+    inline static i64 p;
+};
+
+using Z = MInt<StaticMod>;
+using Zp = MInt<DynamicMod>;
+
+template <typename F> struct Comb
 {
     int n;
-    std::vector<Z> _fac;
-    std::vector<Z> _invfac;
-    std::vector<Z> _inv;
+    std::vector<F> _fac;
+    std::vector<F> _invfac;
+    std::vector<F> _inv;
 
     Comb() : n{0}, _fac{1}, _invfac{1}, _inv{0} {}
     Comb(int n) : Comb() { init(n); }
 
     void init(int m)
     {
-        m = std::min<i64>(m, P - 1);
+        m = std::min<i64>(m, F::P() - 1);
         if (m <= n)
             return;
         _fac.resize(m + 1);
@@ -146,36 +197,35 @@ struct Comb
         n = m;
     }
 
-    Z fac(int m)
+    F fac(int m)
     {
         if (m > n)
             init(2 * m);
         return _fac[m];
     }
-    Z invfac(int m)
+    F invfac(int m)
     {
         if (m > n)
             init(2 * m);
         return _invfac[m];
     }
-    Z inv(int m)
+    F inv(int m)
     {
         if (m > n)
             init(2 * m);
         return _inv[m];
     }
-    Z binom(int n, int m)
+    F binom(int n, int m)
     {
         if (n < m || m < 0)
             return 0;
         return fac(n) * invfac(m) * invfac(n - m);
     }
-} comb;
+};
 
 void modint_example()
 {
-    int n = 6;
-    Comb comb(n);
+    Comb<Z> comb;
 
     assert(comb.binom(3, 2) == 3);
 
