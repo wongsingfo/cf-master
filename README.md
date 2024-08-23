@@ -1,5 +1,16 @@
 # Content History
 
+## 2004: Educational Codeforces Round 169 (Rated for Div. 2)
+
+Date: Aug/15/2024
+Rank: 5441
+Solved: 3
+Rating change: -127
+New rating: 1832
+
+- [Problem F](solved/2004F.cpp): Key technique: find a suffix and a prefix that are equal.
+- [Problem G](solved/2004G.cpp): Use segtree (may excceds the time limit), two-stack technique, prefix/suffix sum.
+
 ## 2002: EPIC Institute of Technology Round August 2024 (Div. 1 + Div. 2)
 
 Date: Aug/11/2024
