@@ -28,7 +28,6 @@ Here are some rules to follow when coding:
 - If each test consists of multiple test cases, the `solve` function should be called multiple times, each time for a different test case; each call to the `solve` function returns the result for one test case. If there is only one test case, ignore this rule.
 - Follow the indexing conventions used by the problem statement. If the problem uses one-indexing (e.g., a_1, a_2, ... a_n), use one-indexing in the code. If the problem uses zero-indexing, use zero-indexing in the code.
 - If the answer needs to take modulo, define the constant `MOD`. Otherwise, ignore this rule.
-- Analyze the time complexity at the end of the code.
 
 Here is a reference implementation that conforms to the above rules:
 
@@ -70,6 +69,7 @@ i64 solve()
         // Check the corner case
         return 1;
     }
+    i64 answer = 0;
     // Placeholder: Solve the general problem
     return answer;
 }
@@ -95,8 +95,6 @@ int main()
 
     return 0;
 }
-
-// Time Complexity: O(n^2) per test case.
 ```
 
 **Below content the problem description. At the end of the problem description. You can find a "HINT" section that tells you how to solve the problem. The hint may be messy because it is written in a hurry. Try your best to guess the meaning. Please strictly follow the HINT!!!**

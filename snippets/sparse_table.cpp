@@ -1,5 +1,4 @@
 /* Snippet Header */
-
 #include <bits/stdc++.h>
 
 /* Snippet BEGIN */
@@ -31,8 +30,10 @@ template <typename T, T (*op)(T, T)> class SparseTable
         }
     }
 
+    // Query [l, r]
     T query(int l, int r)
     {
+        assert(0 <= l && l <= r && r < n);
         int j = log[r - l + 1];
         return op(st[l][j], st[r - (1 << j) + 1][j]);
     }
@@ -45,16 +46,17 @@ template <typename T, T (*op)(T, T)> class SparseTable
 
 template <typename T> T minOp(T a, T b) { return std::min(a, b); }
 template <typename T> T maxOp(T a, T b) { return std::max(a, b); }
+template <typename T> T gcdOp(T a, T b) { return std::gcd(a, b); }
 
 void sparse_table_example()
 {
-    int n = 6;
-    std::vector<int> a = {6, 13, 34, 1, 2, 6};
+    std::vector<int> a = {6, 13, 34, 1, 36, 6};
 
-    // For max query
+    // Zero-indexed
+    // For max query, [left, right]
     SparseTable<int, maxOp> st_max;
     st_max.init(a);
-    assert(st_max.query(1, 4) == 34);
+    assert(st_max.query(1, 4) == 36);
 
     // For min query
     SparseTable<int, minOp> st_min;
