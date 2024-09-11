@@ -57,6 +57,7 @@ void sparse_table_example()
     SparseTable<int, maxOp> st_max;
     st_max.init(a);
     assert(st_max.query(1, 4) == 36);
+    assert(st_max.query(1, 1) == 13);
 
     // For min query
     SparseTable<int, minOp> st_min;
