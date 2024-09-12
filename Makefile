@@ -1,16 +1,16 @@
 .PHONY: test clean template testpy
 
 test: a.out
-	@echo "Input:\n======"
+	@echo -e "Input:\n======"
 	@cat in.txt
-	@echo "\nStderr:\n======="
+	@echo -e "\nStderr:\n======="
 	@{ ./a.out <in.txt >out.txt; } 2>&1 | \
 		awk '/AddressSanitizer/{p=1}!p||/a.cpp/||!/^\s/'
-	@echo "\nExpected:\n========="
+	@echo -e "\nExpected:\n========="
 	@cat ans.txt
-	@echo "\nOutput:\n======="
+	@echo -e "\nOutput:\n======="
 	@cat out.txt
-	@echo "\n======="
+	@echo -e "\n======="
 	@diff --ignore-trailing-space out.txt ans.txt >/dev/null
 	@echo "ok!"
 

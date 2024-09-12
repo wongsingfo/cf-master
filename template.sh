@@ -4,6 +4,7 @@ set -e
 
 MODEL=claude-3-opus-20240229
 MODEL=claude-3-5-sonnet-20240620
+MODEL=gpt-4o-2024-08-06
 
 PROMPT_INPUT="Extract all example input data from the problem statement.
 DO NOT include the example output data. Response ONLY with data in a code block."
