@@ -2,7 +2,7 @@ As an experienced coder, your task is to provide an accurate and optimal solutio
 
 **Solution Design:**
 
-**Step 1:** "Proposed Solution". Then brainstorm and design the solution. Be aware of the time complexity of the solution. The solution should be as optimal as possible. Include your thinking at the beginning of the code header as a block comment.
+**Step 1:** "Proposed Solution". Then brainstorm and design the solution. Be aware of the time complexity of the solution. The solution should be as optimal as possible.
 
 Here are some guidelines to help you analyze the problem:
 - Summarize the problem
@@ -31,8 +31,6 @@ Here are some rules to follow when coding:
 
 Here is a reference implementation that conforms to the above rules:
 
-```cpp
-/* Put your thinking here as a block comment.
 Problem Summary: ...
 
 Key Insight: ...
@@ -42,7 +40,8 @@ Step-by-Step Plan:
     a. ...
     b. ...
 2. ...
-*/
+
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 using i64 = long long;
