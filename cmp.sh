@@ -1,5 +1,6 @@
 set -e
 make a.out
+g++ std.cpp -o std -O2
 while : ; do
 echo -n .
 python gen.py >in.txt

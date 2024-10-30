@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 MODEL=claude-3-opus-20240229
 MODEL=claude-3-5-sonnet-20240620

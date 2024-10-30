@@ -1,11 +1,8 @@
 /* Snippet Header */
-
 #include <bits/stdc++.h>
 
 /* Snippet BEGIN */
-
-template <class T>
-class FenwickTree
+template <class T> class FenwickTree
 {
   public:
     FenwickTree(int size) : size(size) { tree.resize(size + 1, 0); }
@@ -26,7 +23,7 @@ class FenwickTree
         return sum;
     }
 
-    T rangeQuery(int left, int right)
+    T range_query(int left, int right)
     {
         return query(right) - query(left - 1);
     }
@@ -35,5 +32,4 @@ class FenwickTree
     std::vector<T> tree;
     int size;
 };
-
 /* Snippet END */
