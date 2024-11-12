@@ -31,7 +31,6 @@ New rating: 2058
 - [Problem E](solved/2005E.cpp): Good DP problem. Maintain the smallest array index that can win the game.
 - Problem E: Use bitset to speed up.
 
-
 ## 2004: Educational Codeforces Round 169 (Rated for Div. 2)
 
 Date: Aug/15/2024

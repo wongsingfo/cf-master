@@ -23,6 +23,8 @@ class NumberTheory
 
     vector<int> &all_primes() { return primes; }
 
+    int get_min_divisor(int n) { return min_divisor[n]; }
+
     bool is_prime(int n) { return min_divisor[n] == n; }
 
     // Returns x^(-1) (mod m)
