@@ -222,6 +222,26 @@ struct MinCountInfo
 
 template <typename T, typename Comparator = std::less<T>> struct CmpInfo
 {
+    struct Lazy
+    {
+        T lazy;
+        void clear()
+        {
+            if (Comparator()(std::numeric_limits<T>::lowest(),
+                             std::numeric_limits<T>::max())) {
+                lazy = std::numeric_limits<T>::lowest();
+            } else {
+                lazy = std::numeric_limits<T>::max();
+            }
+        }
+        void apply(const Lazy &other)
+        {
+            if (Comparator()(lazy, other.lazy)) {
+                lazy = other.lazy;
+            }
+        }
+    };
+
     T value;
 
     CmpInfo() = default;
@@ -236,12 +256,22 @@ template <typename T, typename Comparator = std::less<T>> struct CmpInfo
         return *this;
     }
 
+    void apply(const Lazy &lazy)
+    {
+        if (Comparator()(value, lazy.lazy)) {
+            value = lazy.lazy;
+        }
+    }
+
     void apply(const NullLazy &) {}
 };
 
 int segtree_example()
 {
     {
+        /// Support the following operations:
+        ///   1. Add/Minus X for A[i], A[i+1], ..., A[j]
+        ///   2. Query how many zeros in A[i], A[i+1], ..., A[j]
         SegmentTree<MinCountInfo, AddLazy> s;
         int n = 10;
         s.init(1, n, [](int) { return MinCountInfo{0, 1}; });
@@ -256,9 +286,18 @@ int segtree_example()
     }
 
     {
-        SegmentTree<CmpInfo<int>> s;
+        /// Support the following operations:
+        ///   1. Query the maximum number in A[i], ... A[j]
+        ///   2. Let A[i] = X
+        ///   3. Let A[i] = max(A[i], X) for all i in [left, right]
+        using C = CmpInfo<int, less<>>;
+        SegmentTree<C, C::Lazy> s;
         s.init(-5, 5);
         s.modify(-2, 3);
+        s.modify(-1, 0, C::Lazy{4});
+
+        assert(s.find_first_idx(-4, 0, [](auto x) { return x.value >= 4; }) ==
+               -1);
         assert(s.find_first_idx(-4, 0, [](auto x) { return x.value >= 3; }) ==
                -2);
         assert(s.find_first_idx(-4, -3, [](auto x) { return x.value >= 3; }) ==
