@@ -23,8 +23,6 @@ Here are some rules to follow when coding:
    #define dbg_export(...)
    #endif
    ```
-- Store input data in global variables. For example, for an array `a`, you can use `vector<int> a`. The `solve` function accesses the input as global variables.
-- The global input stores data for only one test case. Ensure the global input data are properly reset or cleaned before processing a new test case.
 - If each test consists of multiple test cases, the `solve` function should be called multiple times, each time for a different test case; each call to the `solve` function returns the result for one test case. If there is only one test case, ignore this rule.
 - Follow the indexing conventions used by the problem statement. If the problem uses one-indexing (e.g., a_1, a_2, ... a_n), use one-indexing in the code. If the problem uses zero-indexing, use zero-indexing in the code.
 - If the answer needs to take modulo, define the constant `MOD`. Otherwise, ignore this rule.
@@ -53,24 +51,19 @@ using i64 = long long;
 #define dbg_export(...)
 #endif
 
-int n;
-vector<int> a;
-
-void reset_globals()
+void solve()
 {
-    n = 0;
-    a.clear();
-}
+    int n;
+    cin >> n;
+    vector<int> a(n + 1);
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
 
-i64 solve()
-{
-    if (n == 0) {
-        // Check the corner case
-        return 1;
-    }
-    i64 answer = 0;
-    // Placeholder: Solve the general problem
-    return answer;
+    // Solve the problem here.
+
+    cout << ans.size() << endl;
+    for (int i = 1; i <= n; i++)
+        cout << ans[i] << " \n"[i==n];
 }
 
 int main()
@@ -82,14 +75,7 @@ int main()
     int t;
     cin >> t;
     while (t--) {
-        reset_globals();
-        // start input after reset_globals
-        cin >> n;
-        a.resize(n + 1);
-        for (int i = 1; i <= n; i++)
-            cin >> a[i];
-        auto ans = solve();
-        cout << ans << endl;
+        solve();
     }
 
     return 0;

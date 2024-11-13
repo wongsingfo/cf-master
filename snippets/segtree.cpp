@@ -11,7 +11,14 @@ struct NullLazy
     void apply(const NullLazy &) {}
 };
 
-template <typename Info, typename Lazy = NullLazy> class SegmentTree
+template <typename Info, typename Lazy = NullLazy>
+    requires requires(Info info, Lazy lazy) {
+        { info.merge(info) } -> std::convertible_to<Info>;
+        { info.apply(lazy) };
+        { lazy.clear() };
+        { lazy.apply(lazy) };
+    }
+class SegmentTree
 {
   public:
     void init(

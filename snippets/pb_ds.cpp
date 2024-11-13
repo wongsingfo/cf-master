@@ -60,7 +60,11 @@ template <typename T, typename Cmp = std::less<T>>
 using heap = __gnu_pbds::priority_queue<T, Cmp, __gnu_pbds::pairing_heap_tag>;
 
 #define tree_count_strictly_less_than(t, x) (t.order_of_key(x))
+#define tree_count_less_or_equal_than(t, x)                                    \
+    tree_count_strictly_less_than(t, x + 1)
 #define tree_count_greater_or_equal_than(t, x) (t.size() - t.order_of_key(x))
+#define tree_count_strictly_greater_than(t, x)                                 \
+    tree_count_greater_or_equal_than(t, x - 1)
 
 template <typename K, typename V>
 using hash_map = __gnu_pbds::gp_hash_table<K, V, safe_hash>;
