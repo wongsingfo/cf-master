@@ -9,7 +9,8 @@ class NumberTheory
   public:
     NumberTheory(int n) : n(n), min_divisor(n + 1, 0), phi(n + 1) { init(); }
 
-    vector<int> factorize(int x)
+    // 12 => [2, 3]
+    vector<int> factorize_unique(int x)
     {
         vector<int> ret;
         while (x != 1) {
@@ -17,6 +18,20 @@ class NumberTheory
             ret.push_back(min_divisor[x]);
             while (x % xp == 0)
                 x /= xp;
+        }
+        return ret;
+    }
+
+    // 12 => [2, 2, 3]
+    vector<int> factorize_all(int x)
+    {
+        vector<int> ret;
+        while (x != 1) {
+            int xp = min_divisor[x];
+            while (x % xp == 0) {
+                x /= xp;
+                ret.push_back(min_divisor[x]);
+            }
         }
         return ret;
     }

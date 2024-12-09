@@ -23,7 +23,7 @@ class TreeTricks
     /// Starts from 1.
     int cur;
 
-    /// `in` and `out` are inclusive.
+    /// `in` and `out` are inclusive. Starts from 1.
     vector<int> in, out, seq;
 
     /// adj[u][0] is the "heavy" child of u
