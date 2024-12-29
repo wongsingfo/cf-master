@@ -3,11 +3,6 @@
 set -e
 set -o pipefail
 
-MODEL=claude-3-opus-20240229
-MODEL=claude-3-5-sonnet-20240620
-MODEL=gpt-4o-2024-08-06
-MODEL=yi-large
-
 PROMPT_INPUT="Extract all example input data from the problem statement.
 DO NOT include the example output data. Response ONLY with data in a code block."
 
@@ -39,7 +34,7 @@ fi
 echo "Generating template..."
 echo "// Created at:" $(date) > "$OUTPUT_CODE"
 cat "template.md" problem.txt |
-	"$LLM_CLI" --model "$MODEL" --stdin |
+	"$LLM_CLI" --stdin |
 	stdbuf -oL tee /dev/stderr |
 	stdbuf -oL awk '/```/{flag=!flag;next} flag{print}' >> "$OUTPUT_CODE"
 
