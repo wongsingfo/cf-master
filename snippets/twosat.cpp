@@ -8,12 +8,25 @@ using namespace std;
 struct SCC
 {
   public:
-    SCC(int v = 0) { init(v); }
+    // Number of vertices (0, 1, ..., n-1)
+    SCC(int n)
+    {
+        V = n;
+        adj.assign(V, {});
+    }
 
-    SCC(const vector<vector<int>> &_adj) { init(_adj); }
+    template <typename T> SCC(T &&_adj)
+    {
+        adj = std::forward<T>(_adj);
+        V = static_cast<int>(adj.size());
+    }
 
+    // Note that Tarjan's algorithm provides the SCCs in reverse topological
+    // order.
     vector<vector<int>> components;
     vector<int> which_component;
+
+    void insert(int u, int v) { adj[u].push_back(v); }
 
     void work()
     {
@@ -26,8 +39,6 @@ struct SCC
         in_stack.assign(V, false);
         tour = 0;
 
-        // Note that Tarjan's algorithm provides the SCCs in reverse topological
-        // order.
         components = {};
 
         for (int i = 0; i < V; i++)
@@ -43,18 +54,6 @@ struct SCC
 
     vector<int> stack;
     vector<bool> in_stack;
-
-    void init(int v)
-    {
-        V = v;
-        adj.assign(V, {});
-    }
-
-    void init(const vector<vector<int>> &_adj)
-    {
-        adj = _adj;
-        V = int(adj.size());
-    }
 
     void add_edge(int a, int b) { adj[a].push_back(b); }
 
