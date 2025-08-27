@@ -23,6 +23,13 @@ class DSU
         return parent[x];
     }
 
+    bool in_union(int x, int y)
+    {
+        int rootX = find(x);
+        int rootY = find(y);
+        return rootX == rootY;
+    }
+
     void join(int x, int y)
     {
         int rootX = find(x);
