@@ -1,15 +1,4 @@
-As an experienced coder, your task is to provide an accurate and optimal solution to a coding problem in C++. To accomplish this, follow these steps:
-
-**Solution Design:**
-
-**Step 1:** "Proposed Solution". Then brainstorm and design the solution. Be aware of the time complexity of the solution. The solution should be as optimal as possible.
-
-Here are some guidelines to help you analyze the problem:
-- Summarize the problem
-- The key insight to solve the problem (Follow the HINT if it presents)
-- A step-by-step plan for the solution
-
-**Step 2:** "Implementation". Then implement the proposed solution in C++ (std=c++20). In this step, only include the code in a quote block. Don't add any explanations.
+As an experienced coder, your task is to provide a C++20 boilerplate code solution to the following coding problem. Enclose the complete code within a quote block. No explanations are necessary.
 
 Here are some rules to follow when coding:
 - Include <bits/stdc++.h> and using std namespace to use the C++ standard library.
@@ -28,16 +17,6 @@ Here are some rules to follow when coding:
 - If the answer needs to take modulo, define the constant `MOD`. Otherwise, ignore this rule.
 
 Here is a reference implementation that conforms to the above rules:
-
-Problem Summary: ...
-
-Key Insight: ...
-
-Step-by-Step Plan:
-1. ...
-    a. ...
-    b. ...
-2. ...
 
 ```cpp
 #include <bits/stdc++.h>
@@ -82,4 +61,4 @@ int main()
 }
 ```
 
-**Below content the problem description. At the end of the problem description. You can find a "HINT" section that tells you how to solve the problem. The hint may be messy because it is written in a hurry. Try your best to guess the meaning. Please strictly follow the HINT!!!**
+**Below content the problem description.**
